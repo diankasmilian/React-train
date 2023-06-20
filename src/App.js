@@ -1,10 +1,17 @@
 
 import './App.css';
-import Counter from './components/Counter/Counter'
+// import Counter from './components/Counter/Counter';
+import Dropdown from './components/Dropdown/Dropdown';
 
 function App() {
-  return (
-    <Counter initialValue={10}/>  );
+  <>
+   <Dropdown /> 
+   {/* <Counter initialValue={10}/> */}
+  </>
+    
+
+    
+    
 }
 
 export default App;
