@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import './App.css';
 import shortid from 'shortid';
@@ -6,10 +5,14 @@ import shortid from 'shortid';
 // import Counter from './components/Counter';
 // import Dropdown from './components/Dropdown/Dropdown';
 // import ColorPicker from './components/ColorPicker/ColorPicker';
-import TodoList from './components/TodoList';
-import TodoEditor from './components/TodoEditor/TodoEditor';
-import Filter from './components/Filter/Filter';
-import todos from './todos.json'
+// import TodoList from './components/TodoList';
+// import TodoEditor from './components/TodoEditor/TodoEditor';
+// import Filter from './components/Filter/Filter';
+import todos from './todos.json';
+import Modal from './components/Modal';
+import Tabs from './components/Tabs';
+import tabs from './tabs.json'
+// import Clock from './components/Clock/Clock';
 
 // const colorPickerOptions = [
 //   { label: 'red', color: '#F44336' },
@@ -23,11 +26,12 @@ class App extends Component {
   state = {
     todos: todos,
     filter: '',
-  }
+    showModal: false,
+  };
 
   formSubmitHandler = data => {
-   console.log(data)
-  }
+    console.log(data);
+  };
 
   addTodo = text => {
     const todo = {
@@ -44,22 +48,23 @@ class App extends Component {
   deleteTodo = todoId => {
     this.setState(prevState => ({
       todos: prevState.todos.filter(todo => todo.id !== todoId),
-    }))
-  }
+    }));
+  };
 
   toggleCompleted = todoId => {
     this.setState(prevState => ({
       todos: prevState.todos.map(todo => {
-            if (todo.id === todoId) {
-              return {
-                ...todo,
-                completed: !todo.completed,
-              };
-            }
-    
-            return todo;
-    })
-  }))};
+        if (todo.id === todoId) {
+          return {
+            ...todo,
+            completed: !todo.completed,
+          };
+        }
+
+        return todo;
+      }),
+    }));
+  };
 
   changeFilter = e => {
     this.setState({ filter: e.currentTarget.value });
@@ -83,16 +88,34 @@ class App extends Component {
     );
   };
 
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
   render() {
-    const {todos} = this.state;
+    const { showModal } = this.state;
+    // todos, 
     
     return (
       <>
-      {/* <Form onSubmit={this.formSubmitHandler}/> */}
-  {/* <Dropdown />  */}
-  {/* <ColorPicker options={colorPickerOptions}/>
+      <Tabs items={tabs}/>
+        <button type="button" onClick={this.toggleModal}>
+          Open
+        </button>
+
+        {showModal && (
+          <Modal onClose={this.toggleModal}>
+            <h1>Modal</h1>
+            <p>lorem50</p>
+          </Modal>
+        )}
+        {/* <Form onSubmit={this.formSubmitHandler}/> */}
+        {/* <Dropdown />  */}
+        {/* <ColorPicker options={colorPickerOptions}/>
   <Counter initialValue={10}/> */}
-  <div>
+        {/* <div>
     <p>Загальна к-сть Todo: {todos.length}</p>
     <p>К-сть виконаних: {this.calculateCompletedTodos()}</p>
   </div>
@@ -104,12 +127,10 @@ class App extends Component {
   todos={this.getVisibleTodos()} 
   onDeleteTodo={this.deleteTodo}
   onToggleCompleted={this.toggleCompleted}
-  />
- </>
+  /> */}
+      </>
     );
   }
 }
-
-
 
 export default App;
